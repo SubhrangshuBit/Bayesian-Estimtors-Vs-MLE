@@ -1,0 +1,37 @@
+ICH=function(t,v0,s0)
+{
+ x=rchisq(t,v0)
+ v=(v0*s0)/x
+ V=matrix(v,nrow=t)
+ V
+}
+A=ICH(50,10,4)
+A
+N=function(t,mu0,k0)
+{
+ w=rnorm(t,mu0,A/k0)
+ W=matrix(w,nrow=t)
+ W
+}
+B=N(50,2,15)
+B
+M=cbind(A,B)
+M
+mu=sample(M[,1],1)
+sigma=sample(M[,2],1)
+n=c(10:50)
+y=rnorm(n,mu,sigma)
+MLE_mu=sum(y)/n
+MLE_mu
+MLE_sigma=(sum(y^2)-mean(y)^2)/n
+MLE_sigma
+mu_B=(15*2+n*mean(y))/(15+n)
+mu_B
+sigma_n=(10*4+(sum(y^2)-mean(y)^2)+((n*10*((2-MLE_mu)^2))/(n+10)))/(10+n)
+sigma_B=(10*sigma_n)/(10+n-1)
+sigma_B
+par(mfrow=c(2,2))
+plot(n,MLE_mu,col="red",type="l",xlab="Sample Size",ylab="Bayesian and ML Estimates of mean")
+lines(n,mu_B,col="blue")
+plot(n,MLE_sigma,col="red",type="l",xlab="Sample Size",ylab="Bayesian and ML Estimates of variance")
+lines(n,sigma_B,col="green")
